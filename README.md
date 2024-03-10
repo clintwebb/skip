@@ -26,25 +26,29 @@ cat somefile.txt | skip 3
 # This will output somefile.txt but will not output any blank lines.
 cat somefile.txt | skip blank
 
-# This will output somefile.txt but will ignore all the lines at the start until an empty line is encountered, and then will output the rest.
+# This will output somefile.txt but will ignore all the lines at the start until an empty line
+# is encountered, and then will output the rest.
 cat somefile.txt | skip header
 
-# This will output somefile.txt but will ignore all lines until it encounters a line that begins with "Data:" (and will output that "Data:" line)
+# This will output somefile.txt but will ignore all lines until it encounters a line that
+# begins with "Data:" (and will output that "Data:" line)
 cat somefile.txt | skip before "Data:"
 
-# This will output somefile.txt but will ignore all lines until it encounters a line that begins with "Data:" (and will not output that "Data:" line)
+# This will output somefile.txt but will ignore all lines until it encounters a line that
+# begins with "Data:" (and will not output that "Data:" line)
 cat somefile.txt | skip before "Data:" 1
 
-# This will output somefile.txt but will ignore all lines until it encounters a line that begins with "Data:",
-# will not remove the 'Data:' line, but will remove the next line.
+# This will output somefile.txt but will ignore all lines until it encounters a line that
+# begins with "Data:", will not remove the 'Data:' line, but will remove the next line.
 cat somefile.txt | skip before "Data:" 0 1
 
-# This will output somefile.txt and will output all lines until it encounters a line that begins with "Data:".
-# (Will not include the line that begins with 'End:')
+# This will output somefile.txt and will output all lines until it encounters a line that
+# begins with "Data:".  (Will not include the line that begins with 'End:')
 cat somefile.txt | skip after "Data:"
 
-# This will output somefile.txt but will ignore all lines until it encounters a line that begins with "Data:",
-# will not remove the 'Data:' line and will output lines until it finds another line named 'End:'
+# This will output somefile.txt but will ignore all lines until it encounters a line that
+# begins with "Data:", will not remove the 'Data:' line and will output lines until it
+# finds another line named 'End:'
 cat somefile.txt | skip before "Data:" after "End:"
 
 ```
@@ -56,9 +60,11 @@ Examples:
 # This will skip all blank lines, skip 3 remaining lines, and then output the rest
 cat somefile.txt | skip blank 3
 
-# This will skip the first 3 lines (whether they contain any blank ones or not), and then output the rest except any blank lines
+# This will skip the first 3 lines (whether they contain any blank ones or not), and then
+# output the rest except any blank lines
 cat somefile.txt | skip 3 blank
 
-# This will skip all lines until it reaches one that matches 'Data:'.  By default it would also output 'Data:' but in this case, it is being informed to skip that line.
+# This will skip all lines until it reaches one that matches 'Data:'.  By default it would
+# also output 'Data:' but in this case, it is being informed to skip that line.
 cat somefile.txt | skip before 'Data:' 1
 ```
