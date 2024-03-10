@@ -93,7 +93,7 @@ void usage(void) {
 			"cat somefile.txt | skip before \"Data:\" 0 1\n\n"
 
 			"# This will output somefile.txt and will output all lines until it encounters a line that begins with \"Data:\".\n"
-			"# (Will not include the line that begins with 'End:')\n"
+			"# (Will include the line that begins with 'Data:')\n"
 			"cat somefile.txt | skip after \"Data:\"\n\n"
 
 			"# This will output somefile.txt but will ignore all lines until it encounters a line that begins with \"Data:\",\n"
