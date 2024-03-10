@@ -43,7 +43,7 @@ cat somefile.txt | skip before "Data:" 1
 cat somefile.txt | skip before "Data:" 0 1
 
 # This will output somefile.txt and will output all lines until it encounters a line that
-# begins with "Data:".  (Will not include the line that begins with 'End:')
+# begins with "Data:".
 cat somefile.txt | skip after "Data:"
 
 # This will output somefile.txt but will ignore all lines until it encounters a line that
