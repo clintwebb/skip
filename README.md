@@ -26,8 +26,8 @@ cat somefile.txt | skip 3
 # This will output somefile.txt but will not output any blank lines.
 cat somefile.txt | skip blank
 
-# This will output somefile.txt but will ignore all the lines at the start until an empty line
-# is encountered, and then will output the rest.
+# This will output somefile.txt but will ignore all the lines at the start until an empty
+# line is encountered, and then will output the rest.
 cat somefile.txt | skip header
 
 # This will output somefile.txt but will ignore all lines until it encounters a line that
