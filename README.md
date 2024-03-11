@@ -7,7 +7,7 @@ Skip is a simple tool useful mostly for bash scripting and command-line operatio
 * header: Skip any lines at the start of the stream until a blank line is determined, and then will output the rest
 * before "string": Skip any lines until the specified "string is matched" at the beginning of a line, then will output the rest (including line that matched unless 1 is the next parameter)
 * until "string": Once the string is identified (at the begining of a line)
-
+* all: Skip everything after this point.
 
 
 NOTE: 
@@ -51,6 +51,13 @@ cat somefile.txt | skip after "Data:"
 # finds another line named 'End:'
 cat somefile.txt | skip before "Data:" after "End:"
 
+# This is a slightly odd one, and can be done by some other tools anyway.. but adding for some convenience.
+# 'all' will skip everything after that point.  In this example, we are skipping 3 lines, displaying 4 lines, and
+# then skipping everything after that.
+cat somefile.txt | skip 3 0 0 0 0 all
+
+# alternatively to set a specific number of zeros... can do this
+cat somefile.txt | skip 3 `printf '0 %.0s' {1..4}` all
 ```
 
 It should be noted that the order of the command options matter.  They are taken into account, in the order that they are specified.

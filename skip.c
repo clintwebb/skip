@@ -15,16 +15,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+#define VERSION "0.0.2"
+
 #define OPT_N		1
 #define OPT_BLANK	2
 #define OPT_HEADER	3
 #define OPT_BEFORE	4
 #define OPT_AFTER	5
+#define OPT_ALL		6
 
-#define BUFLEN (4096*4)
-
-#define VERSION "0.0.1"
-
+#define BUFLEN (4096*18)
 
 typedef struct __option {
 	int type;
@@ -69,6 +70,8 @@ void usage(void) {
 			"                      By default output the string line itself.  To strip it choose the '1' option after it.\n"
 			"  after \"string\"  - Skip all lines after a line beginning with the 'string' is encountered.\n"
 			"                      By default output the string line itself.  To strip it choose the '1' option after it.\n"
+			"  all               - Skip everything after this point.  Only thing to stop this is a 'before', but in that\n"
+			"                      'all' would be useless anyway.\n"
 			"\n"
 			"Examples:\n"
 			"# This will output somefile.txt but skip the first line\n"
@@ -109,6 +112,13 @@ void usage(void) {
 
 			"# This will skip all lines until it reaches one that matches 'Data:'.  By default it would also output 'Data:' but in this case, it is being informed to skip that line.\n"
 			"cat somefile.txt | skip before 'Data:' 1\n\n"
+
+			"# This is a slightly odd one, and can be done by some other tools anyway.. but adding for some convenience.\n"
+			"# 'all' will skip everything after that point.  In this example, we are skipping 3 lines, displaying 4 lines, and\n"
+			"# then skipping everything after that.\n"
+			"cat somefile.txt | skip 3 0 0 0 0 all\n\n"
+			"# alternatively to set a specific number of zeros... can do this\n"
+			"cat somefile.txt | skip 3 `printf '0 %.0s' {1..4}` all\n\n"
 
 			);
 
@@ -213,6 +223,15 @@ int main(int argc, char **argv)
 				gOptions[gOptionsRemaining].data.before = argv[i+1];
 				assert(strlen(gOptions[gOptionsRemaining].data.before) > 0);
 				i++;
+
+				gOptionsRemaining++;
+				assert(gOptionsRemaining <= (argc-1));
+			}
+			else if (strcmp(argv[i], "all") == 0 ) {
+				assert(gOptionsRemaining >= 0);
+				assert(gOptionsRemaining < (argc-1));
+
+				gOptions[gOptionsRemaining].type = OPT_ALL;
 
 				gOptionsRemaining++;
 				assert(gOptionsRemaining <= (argc-1));
@@ -329,6 +348,10 @@ int main(int argc, char **argv)
 						else {
 							skip = false;
 						}
+						break;
+					case OPT_ALL:
+						// Skip everything after this point.
+						gIgnore = 1;
 						break;
 				}
 			}

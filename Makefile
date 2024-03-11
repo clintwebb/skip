@@ -2,7 +2,7 @@
 
 # Project specific variables.
 PRODUCT := skip
-VER     := 0.0.1
+VER     := 0.0.2
 WORKDIR := .
 
 # Additional compile args.
