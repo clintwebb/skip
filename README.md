@@ -6,7 +6,7 @@ Skip is a simple tool useful mostly for bash scripting and command-line operatio
 * _+n_: Do NOT Skip 'n' number of lines.  Means specifically to output them.
 * blank: Skip any blank lines.
 * header: Skip any lines at the start of the stream until a blank line is determined, and then will output the rest
-* before "string": Skip any lines until the specified "string is matched" at the beginning of a line, then will output the rest (including line that matched unless 1 is the next parameter)
+* before "string": Skip any lines until the specified "string" is matched at the beginning of a line, then will output the rest (including line that matched unless 1 is the next parameter)
 * until "string": Once the string is identified (at the begining of a line)
 * all: Skip everything after this point.
 
