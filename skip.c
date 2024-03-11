@@ -47,7 +47,8 @@ int gIgnore = 0;
 void remove_option() {
 	assert(gOptionsRemaining > 0);
 
-	for (int i=0; i < (gOptionsRemaining-1); i++ ) {
+	int i;
+	for (i=0; i < (gOptionsRemaining-1); i++ ) {
 		gOptions[i].type = gOptions[i+1].type;
 		gOptions[i].data = gOptions[i+1].data;
 	}
@@ -138,7 +139,8 @@ int main(int argc, char **argv)
 		assert(gOptionsRemaining == 0);
 
 		// Go through the command-line options to establish the list of options to be processed.
-		for (int i=1; i<argc; i++) {
+		int i;
+		for (i=1; i<argc; i++) {
 			assert(gOptionsRemaining < (argc-1));
 
 			if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
