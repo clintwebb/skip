@@ -9,5 +9,11 @@
 <details>
 <summary>v0.0.1</summary>
 
-* Initial implementation.
+* Initial implementation includes the options:
+   * **number of lines to skip** : (often referred to as 'n').  eg `cat somefile.txt | skip 3`
+   * **header** : skip lines until it reaches a blank line, then outputs the rest
+   * **blank** : skip blank lines
+   * **before "string"** : skips lines before line that starts with "string"
+   * **after "string"** : skips lines after the line that start with "string"
+   * some other bits to help with those above options.
 </details>
