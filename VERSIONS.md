@@ -2,6 +2,11 @@
 
 
 <details open>
+<summary>v0.0.3</summary>
+
+* Added '+n' option for indicating to display a certain number of lines.  Often likely used when wanting to skip a number of lines, display a number of lines, then skip some more.
+</details>
+<details>
 <summary>v0.0.2</summary>
 
 * Added 'all' option for indicating to skip everything after that point.  Often likely only used with the '0' entries (which means dont skip that line).

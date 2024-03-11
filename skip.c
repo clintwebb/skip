@@ -16,7 +16,7 @@
 #include <string.h>
 
 
-#define VERSION "0.0.2"
+#define VERSION "0.0.3"
 
 #define OPT_N		1
 #define OPT_BLANK	2
@@ -24,6 +24,7 @@
 #define OPT_BEFORE	4
 #define OPT_AFTER	5
 #define OPT_ALL		6
+#define OPT_PLUS	7
 
 #define BUFLEN (4096*18)
 
@@ -72,6 +73,8 @@ void usage(void) {
 			"                      By default output the string line itself.  To strip it choose the '1' option after it.\n"
 			"  all               - Skip everything after this point.  Only thing to stop this is a 'before', but in that\n"
 			"                      'all' would be useless anyway.\n"
+			"  +<number>         - Do NOT skip <number> of lines.  Basically the opposite of skip, but may be useful.\n"
+			"                      Can already do it by specifying a sequence of 0's.. but this will be easier.\n"
 			"\n"
 			"Examples:\n"
 			"# This will output somefile.txt but skip the first line\n"
@@ -116,10 +119,7 @@ void usage(void) {
 			"# This is a slightly odd one, and can be done by some other tools anyway.. but adding for some convenience.\n"
 			"# 'all' will skip everything after that point.  In this example, we are skipping 3 lines, displaying 4 lines, and\n"
 			"# then skipping everything after that.\n"
-			"cat somefile.txt | skip 3 0 0 0 0 all\n\n"
-			"# alternatively to set a specific number of zeros... can do this\n"
-			"cat somefile.txt | skip 3 `printf '0 %.0s' {1..4}` all\n\n"
-
+			"cat somefile.txt | skip 3 +4 all\n\n"
 			);
 
 	exit(1);
@@ -246,6 +246,16 @@ int main(int argc, char **argv)
 				gOptionsRemaining++;
 				assert(gOptionsRemaining <= (argc-1));
 			}
+			else if (argv[i][0] == '+') {
+				assert(gOptionsRemaining >= 0);
+				assert(gOptionsRemaining < (argc-1));
+
+				gOptions[gOptionsRemaining].type = OPT_PLUS;
+				gOptions[gOptionsRemaining].data.lines = atoi(argv[i]);
+
+				gOptionsRemaining++;
+				assert(gOptionsRemaining <= (argc-1));
+			}
 			else {
 				fprintf(stderr, "Unexpected option: '%s'\n\n", argv[i]);
 				return(1);
@@ -280,6 +290,19 @@ int main(int argc, char **argv)
 				switch (gOptions[0].type) {
 					case OPT_N :
 						if (gOptions[0].data.lines > 0) { skip = true; }
+
+						assert(gOptions[0].data.lines >= 0);
+						gOptions[0].data.lines --;
+						if (gOptions[0].data.lines <= 0) {
+							// this option is finished... so we can remove it.
+							remove_option();
+						}
+						break;
+					case OPT_PLUS :
+						if (gOptions[0].data.lines > 0) { 
+							skip = false;
+							gIgnore = 0;
+						}
 
 						assert(gOptions[0].data.lines >= 0);
 						gOptions[0].data.lines --;

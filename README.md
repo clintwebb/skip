@@ -3,6 +3,7 @@
 Skip is a simple tool useful mostly for bash scripting and command-line operations.
 
 * _n_: Skip 'n' number of lines, and then output the rest
+* _+n_: Do NOT Skip 'n' number of lines.  Means specifically to output them.
 * blank: Skip any blank lines.
 * header: Skip any lines at the start of the stream until a blank line is determined, and then will output the rest
 * before "string": Skip any lines until the specified "string is matched" at the beginning of a line, then will output the rest (including line that matched unless 1 is the next parameter)
@@ -54,10 +55,7 @@ cat somefile.txt | skip before "Data:" after "End:"
 # This is a slightly odd one, and can be done by some other tools anyway.. but adding for some convenience.
 # 'all' will skip everything after that point.  In this example, we are skipping 3 lines, displaying 4 lines, and
 # then skipping everything after that.
-cat somefile.txt | skip 3 0 0 0 0 all
-
-# alternatively to set a specific number of zeros... can do this
-cat somefile.txt | skip 3 `printf '0 %.0s' {1..4}` all
+cat somefile.txt | skip 3 +4 all
 ```
 
 It should be noted that the order of the command options matter.  They are taken into account, in the order that they are specified.
@@ -70,6 +68,9 @@ cat somefile.txt | skip blank 3
 # This will skip the first 3 lines (whether they contain any blank ones or not), and then
 # output the rest except any blank lines
 cat somefile.txt | skip 3 blank
+
+# This will display the first 4 lines, skip 2 lines, display 3 lines, and then skip everything after that.
+cat somefile.txt | skip +4 2 +3 all
 
 # This will skip all lines until it reaches one that matches 'Data:'.  By default it would
 # also output 'Data:' but in this case, it is being informed to skip that line.
