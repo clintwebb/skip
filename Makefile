@@ -45,6 +45,7 @@ $(WORKDIR)/$(PKGFILE): $(PRODUCT)
 
 install: $(WORKDIR)/$(PRODUCT)
 	cp $^ /usr/bin/
+	chmod a+rx /usr/bin/skip
 
 #
 #
