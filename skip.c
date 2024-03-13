@@ -16,7 +16,7 @@
 #include <string.h>
 
 
-#define VERSION "0.0.3"
+#define VERSION "0.0.4"
 
 #define OPT_N		1
 #define OPT_BLANK	2
