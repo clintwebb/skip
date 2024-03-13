@@ -3,7 +3,6 @@
 # Project specific variables.
 PRODUCT := skip
 VER     := 0.0.3
-WORKDIR := .
 
 # Additional compile args.
 ARGS    :=
@@ -13,11 +12,11 @@ ARGS    :=
 
 MANPATH=/usr/share/man
 
-PKGFILE := $(WORKDIR)/$(PRODUCT)-$(VER).tar.gz
-SRCFILE := $(WORKDIR)/$(PRODUCT)-src-$(VER).tar.gz
+PKGFILE := $(PRODUCT)-$(VER).tar.gz
+SRCFILE := $(PRODUCT)-src-$(VER).tar.gz
 
 
-all: $(WORKDIR)/$(PRODUCT)
+all: $(PRODUCT)
 package: $(PKGFILE)
 src: $(SRCFILE)
 
@@ -25,27 +24,24 @@ src: $(SRCFILE)
 
 # Need to be able to make 'man-pages' as well.  Not sure where to get the source for those... 
 
-$(WORKDIR)/$(PRODUCT): $(PRODUCT).c
+$(PRODUCT): $(PRODUCT).c
 	@echo "Making: $@"
-	@-[ -d $(WORKDIR) ] || mkdir $(WORKDIR)
 	gcc -o $@ $^ $(ARGS)
 
-$(WORKDIR)/$(SRCFILE): $(PRODUCT).c Makefile
+$(SRCFILE): $(PRODUCT).c Makefile
 	@echo "Making: $@"
-	@-[ ! -d $(WORKDIR) ] && mkdir $(WORKDIR)
 	@-[ -e $@ ] && rm $@
 	tar zcf $@ $^
 
-$(WORKDIR)/$(PKGFILE): $(PRODUCT)
+$(PKGFILE): $(PRODUCT)
 	@echo "Making: $@"
-	@-[ ! -d $(WORKDIR) ] && mkdir $(WORKDIR)
 	@-[ -e $@ ] && rm $@
 	tar zcf $@ $^
 
 
-install: $(WORKDIR)/$(PRODUCT)
-	cp $^ /usr/bin/
-	chmod a+rx /usr/bin/skip
+install: $(PRODUCT)
+	install -D -m 755 $^ $(DESTDIR)$(PREFIX)/usr/bin/$^
+#	chmod a+rx $(DESTDIR)/usr/bin/skip
 
 #
 #
@@ -63,4 +59,4 @@ uninstall:
 	@-test -e /usr/bin/$(PRODUCT) && rm /usr/bin/$(PRODUCT)
 
 clean:
-	@-[ -e $(WORKDIR)/$(PRODUCT) ] && rm $(WORKDIR)/$(PRODUCT)
+	@-[ -e $(PRODUCT) ] && rm $(PRODUCT)
